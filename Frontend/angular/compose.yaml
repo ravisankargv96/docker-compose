@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: angular # docker file present in ./angular
+      target: builder # stage of docker
+    ports:
+      - 4200:4200
+    volumes:
+      - ./angular:/project  # store in @host ./angular @container ./project
+      - /project/node_modules # @container ./project/node_modules the installed node modules.
