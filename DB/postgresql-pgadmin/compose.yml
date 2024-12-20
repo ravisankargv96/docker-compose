@@ -8,6 +8,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB} #optional (specify default database instead of $POSTGRES_DB)
     ports:
       - "5432:5432"
+    networks:
+      - pg-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     
   pgadmin:
@@ -18,4 +22,15 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PW}
     ports:
       - "5050:80"
+    networks:
+      - pg-network
+    depends_on:
+      - postgres  # Ensures pgAdmin waits for postgres to start
     restart: always
+
+networks:
+  pg-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
